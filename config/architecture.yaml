@@ -1,0 +1,142 @@
+# S2L Navigator — architecture diagrams (data-driven)
+# Each diagram has a title, description, and Mermaid source.
+# Add new diagrams here; the Architecture page renders them automatically.
+
+diagrams:
+  - id: roc
+    title: "Remote Operations Center — Data Flow"
+    area: roc
+    description: >
+      Field assets reach ThingsBoard over the ZeroTier / OpenZiti overlay, which stores to
+      Cassandra and feeds a daily Databricks ingest for analytics. Dev/QA run full standalone copies.
+    mermaid: |
+      flowchart TB
+          subgraph Field["Field Assets (frac / marine / rail / gensets)"]
+              ZT["ZeroTier client"]
+              OZ["OpenZiti (zero-trust)"]
+          end
+          subgraph Azure["Azure"]
+              subgraph ProdSub["Prod Subscription"]
+                  TBprod["ThingsBoard (Docker)"]
+                  Cass[("Cassandra DB")]
+                  DBX["Databricks (daily ingest)"]
+                  Blob[("Azure Blob - boat data")]
+                  TBprod --> Cass --> DBX
+              end
+              DevQA["Dev and QA Subs - full ThingsBoard + Cassandra"]
+          end
+          subgraph OnPrem["On-Prem VMs - supporting apps"]
+              OST["osTicket"]
+              TS["Timesheet"]
+              RKDoc["Railking Doc Navigator"]
+              LMS["LMS"]
+              DV["Data Viewer"]
+              Warr["Warranty App"]
+          end
+          ZT -->|Telemetry API| TBprod
+          OZ -->|zero-trust overlay| TBprod
+          ZT -.dev/test.-> DevQA
+          DV --> Blob
+          DBX --> Analytics["Data Analytics Portal"]
+          TBprod --> ROC["Remote Ops Center"]
+
+  - id: shared
+    title: "Shared Platform Services"
+    area: roc
+    description: "Common backbone every S2L app plugs into."
+    mermaid: |
+      flowchart TB
+          subgraph Shared["Shared Platform Services"]
+              SSO["Entra ID - SSO"]
+              Mail["M365 Email (Graph / SMTP)"]
+              Repos["Package Repos - OPKG / APT / Git / NPM"]
+              Blocks["BuildingBlocks - shared components"]
+          end
+          Apps["All S2L Apps (Navigator, osTicket, LMS, Warranty, Timesheet, Data Viewer, ThingsBoard)"]
+          Shared --> Apps
+
+  - id: edge
+    title: "Edge Platform — Standardized Runtime"
+    area: edge
+    description: >
+      Same Linux environment on any hardware model. The .NET 8+ app uses a Current Value Table
+      (Redis) for state and Pub/Sub (MQTT) for data/events; the ThingsBoard Gateway forwards
+      telemetry to the cloud over ZeroTier.
+    mermaid: |
+      flowchart TB
+          subgraph HW["Hardware (multiple models, same environment)"]
+              subgraph Linux["Linux Edge Runtime Image"]
+                  App[".NET 8+ App + Modules (Launcher-started)"]
+                  Redis[("Redis - CVT (expires -> null)")]
+                  MQTT{{"MQTT Broker"}}
+                  NR["Node-RED (flows / custom nodes)"]
+                  TBG["ThingsBoard Gateway"]
+                  ZT["ZeroTier client"]
+                  OZ["OpenZiti (zero-trust)"]
+                  App <--> Redis
+                  App <--> MQTT
+                  NR <--> MQTT
+                  TBG <--> MQTT
+              end
+          end
+          TBG -->|telemetry over ZeroTier / OpenZiti| Cloud["Cloud ThingsBoard -> Cassandra -> Databricks"]
+
+  - id: launcher
+    title: "Configuration-Based Launcher"
+    area: edge
+    description: >
+      Config decides which modules run; the Launcher orchestrates startup and tells each module
+      where to get its configuration. Same binary, different config = different product.
+    mermaid: |
+      flowchart TB
+          Config[("Configuration Source")]
+          Launcher["Launcher - starts required modules"]
+          Config --> Launcher
+          Launcher --> M1["Module A"]
+          Launcher --> M2["Module B"]
+          Launcher --> M3["Module C"]
+          M1 -.config.-> Config
+          M2 -.config.-> Config
+          M3 -.config.-> Config
+
+  - id: logic_tiers
+    title: "Edge Logic Authoring Tiers"
+    area: edge
+    description: "Match effort to need: connectors (simple) -> Node-RED (user-editable) -> .NET modules (complex)."
+    mermaid: |
+      flowchart LR
+          A["1. ThingsBoard Gateway connectors - simple, config only"]
+          B["2. Node-RED flows + custom S2L nodes - user-editable"]
+          C["3. Custom .NET modules - complex, full power"]
+          A --> B --> C
+
+  - id: deploy_workflow
+    title: "Edge Device Deployment Workflow"
+    area: edge
+    description: >
+      Three-phase build/provision pipeline from the s2labs-edge-device-deploy repo:
+      base image creation, pre-production assembly, then field provisioning.
+    mermaid: |
+      flowchart LR
+          subgraph P1["Phase 1 - Base Image (SW Engineer)"]
+              Flash1["Flash stock OS"]
+              Deploy["deploy.ps1 - push + build over SSH"]
+              Verify["58 verification checks"]
+              Capture["Capture base image"]
+              Flash1 --> Deploy --> Verify --> Capture
+          end
+          subgraph P2["Phase 2 - Pre-Production (Technician)"]
+              HW["Install LTE module + SIM + antennas"]
+              Flash2["Flash base image"]
+              Boot["First boot regenerates SSH keys"]
+              HW --> Flash2 --> Boot
+          end
+          subgraph P3["Phase 3 - Field Provisioning"]
+              Console["Device Console - set SNS ID + Unit ID"]
+              Prov["Start Provisioning (needs internet)"]
+              Green["OpenZiti + ZeroTier + ThingsBoard green"]
+              Console --> Prov --> Green
+          end
+          Capture --> HW
+          Boot --> Console
+          Repos[("APT + opkg repos - s2lzt.westus.cloudapp.azure.com")] -.packages.-> Deploy

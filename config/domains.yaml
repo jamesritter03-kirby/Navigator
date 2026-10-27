@@ -1,0 +1,216 @@
+# S2L Navigator — project taxonomy (data-driven)
+# Structure: domains -> areas -> projects -> typed links
+# Add/rename/move anything here without touching code.
+#
+# A project may carry:
+#   name        customer-facing name
+#   codename    internal nickname (optional)
+#   number      project number (optional)
+#   summary     one-line description
+#   links       list of { type, label, url }
+#   tags        freeform tags for cross-cutting grouping/search
+
+domains:
+  - id: platform
+    name: "Platform & Infrastructure"
+    icon: "🏗️"
+    summary: "Cross-cutting software architecture, shared components, and test environments."
+    areas:
+      - id: software_architecture
+        name: "Software Architecture"
+        projects:
+          - name: "Software Architecture"
+            summary: ".NET 8+ configuration-based edge platform; base for all edge devices."
+            links:
+              - { type: teams, label: "Teams: Software Architecture", url: "https://teams.microsoft.com/l/team/19%3AqrL10nIJ9ySMjkKmAid3UB5J8O8MnLHPZw1rpXGmshE1%40thread.tacv2/conversations?groupId=e269fa89-d5ec-4591-b25c-6d946ac37f6b&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [platform, edge, dotnet]
+      - id: building_blocks
+        name: "Building Blocks"
+        projects:
+          - name: "S2L-BuildingBlocks"
+            summary: "Catch-all for common, reusable shared components used across platforms."
+            links:
+              - { type: teams, label: "Teams: S2L-BuildingBlocks", url: "https://teams.microsoft.com/l/team/19%3ADXSOU9DVMRLxeSNA_VmlLA5Y_48yPyfO4NHcOfjzmLI1%40thread.tacv2/conversations?groupId=b208c6f2-23f9-454b-a7de-5f1b587c4b95&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [platform, shared, reuse]
+      - id: digital_twin
+        name: "Digital Twin"
+        projects:
+          - name: "Digital Twin"
+            summary: "Digital twin environments to test control systems."
+            links:
+              - { type: teams, label: "Teams: Digital Twin", url: "https://teams.microsoft.com/l/team/19%3A8nVF0IERMepyuOA7muwwTJDyUhSn067tR5vcd22N1BQ1%40thread.tacv2/conversations?groupId=cf47c21d-e4e5-424d-8d58-46e8f3c314bc&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [platform, test, simulation]
+
+  - id: oilfield
+    name: "Oilfield Service"
+    icon: "🛢️"
+    summary: "Control systems for hydraulic fracturing equipment (diesel & electric)."
+    areas:
+      - id: datavans
+        name: "Datavans"
+        projects:
+          - name: "Frac Datavan"
+            summary: "Datavan control systems."
+            links:
+              - { type: teams, label: "Teams: Frac Datavan", url: "https://teams.microsoft.com/l/team/19%3AbSdhSJidxhUsjLuQf714Z_dpP17yZ7qtiZxrsRJs3Fk1%40thread.tacv2/conversations?groupId=6e17bf2f-d07f-4dc3-8616-348bcb328062&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [oilfield, frac]
+      - id: frac_pumps
+        name: "Frac Pumps"
+        projects:
+          - name: "Frac Pump"
+            summary: "Frac pump control systems (diesel and electric)."
+            links:
+              - { type: teams, label: "Teams: Frac Pump", url: "https://teams.microsoft.com/l/team/19%3Ak2DHyAO0H3v_pOGdwTuZWWG0qA6yjgOE-Y3qeKRV2YU1%40thread.tacv2/conversations?groupId=56d44eb8-89b5-4173-848f-6109cbd3e25e&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [oilfield, frac, diesel, electric]
+      - id: blenders
+        name: "Blenders"
+        projects:
+          - name: "Frac Blender"
+            summary: "Blender control systems."
+            links:
+              - { type: teams, label: "Teams: Frac Blender", url: "https://teams.microsoft.com/l/team/19%3AR4Rcufs2LjtdDYGBqFC8aqXCaR4dLZC_KP1IjR_SfCk1%40thread.tacv2/conversations?groupId=c70958e3-97d9-43a6-8c0a-b7d8b712209e&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [oilfield, frac]
+      - id: chem_add
+        name: "Chemical Additive Systems"
+        projects:
+          - name: "Frac ChemAdd"
+            summary: "Chemical additive system control."
+            links:
+              - { type: teams, label: "Teams: Frac ChemAdd", url: "https://teams.microsoft.com/l/team/19%3ApgpGGQ35Yad6LEQCtlbMeR6yrRSO2IOfbmSvcLZ8HBM1%40thread.tacv2/conversations?groupId=57a651f2-1ea0-4165-b149-1de4cbb66211&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [oilfield, frac]
+      - id: hydration
+        name: "Hydration Units"
+        projects:
+          - name: "Hydration Units"
+            summary: "Hydration unit control systems."
+            links: []
+            tags: [oilfield, frac]
+      - id: das
+        name: "DAS (Data Acquisition Systems)"
+        projects:
+          - name: "DAS"
+            summary: "Data acquisition systems."
+            links:
+              - { type: teams, label: "Teams: DAS", url: "https://teams.microsoft.com/l/team/19%3A3Wt7OFzFy4GZy-6F9q_-0e6FwreJVWGQn9NCs4a3hpM1%40thread.tacv2/conversations?groupId=02f8adea-abce-4e9a-9e0a-ee4b9caf831e&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [oilfield, data]
+
+  - id: power
+    name: "Power Systems"
+    icon: "⚡"
+    summary: "Generator packages, configurable Balance of Plant control, switchgear, and KPS service."
+    areas:
+      - id: generators
+        name: "Generator Packages"
+        projects:
+          - name: "Generators"
+            summary: "Many manufactured generator package variations."
+            links:
+              - { type: teams, label: "Teams: Generators", url: "https://teams.microsoft.com/l/team/19%3AnncNc19YbTsmnOPmK9rJZfw8b_Z3aNoIOpceqJwJZps1%40thread.tacv2/conversations?groupId=8934733a-5797-4a78-a9fd-7fe59cde59e0&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [power, generator]
+      - id: bop
+        name: "BoP Control System"
+        projects:
+          - name: "BoP Control System"
+            summary: "Generic, per-application configurable Balance of Plant control system."
+            links:
+              - { type: teams, label: "Teams: BoP Control System", url: "https://teams.microsoft.com/l/team/19%3ATD5Gsl3w7JsVmLTGtSUQe-8Ip0vfs45Yv4cl9ySK-XI1%40thread.tacv2/conversations?groupId=7c56eac9-05e3-43c5-993e-75331b705959&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [power, generator, configurable]
+      - id: switchgear
+        name: "Switchgear"
+        projects:
+          - name: "Switchgear"
+            summary: "Switchgear packages, related to the generator packages."
+            links:
+              - { type: teams, label: "Teams: Switchgear", url: "https://teams.microsoft.com/l/team/19%3AyPks_CJahWAOQxK5h3qSRwTBnJ0UpV1aC1kgw3Fpwnc1%40thread.tacv2/conversations?groupId=ceb08140-fcf0-4d92-8419-e17c59581fd5&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [power]
+      - id: kps
+        name: "KPS Service Group"
+        projects:
+          - name: "KPS"
+            summary: "Support for the new KPS generator service group."
+            links:
+              - { type: teams, label: "Teams: KPS", url: "https://teams.microsoft.com/l/team/19%3AMHfvivL_6crzff8mQWfZQg3oOGwnuI-n2Ie9eIKjCw41%40thread.tacv2/conversations?groupId=4453fe30-d16a-41e7-afb5-b80754064fbc&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [power, service]
+
+  - id: marine
+    name: "Marine (Kirby)"
+    icon: "🚢"
+    summary: "Hybrid electric propulsion control systems for Kirby push boats."
+    areas:
+      - id: program
+        name: "Program"
+        projects:
+          - name: "Marine Electric Hybrid Propulsion Project"
+            summary: "Overall marine hybrid propulsion program for parent company Kirby."
+            links:
+              - { type: teams, label: "Teams: Marine Electric Hybrid Propulsion", url: "https://teams.microsoft.com/l/team/19%3Aae0ffec8118a4e07a9351205b1cabf83%40thread.tacv2/conversations?groupId=b8856f1d-4a11-4aad-a4da-babc7b2d7044&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [marine, kirby]
+      - id: boats
+        name: "Boats"
+        projects:
+          - name: "Green Diamond"
+            summary: "Inland push boat, ~650 HP."
+            tags: [marine, kirby, boat]
+            links: []
+          - name: "Green Wave"
+            codename: "Argus"
+            number: "1740013"
+            summary: "~2000 HP push boat, 4 generators; Corpus Christi to Louisiana cargo route."
+            links:
+              - { type: teams, label: "Teams: S2L | 1740013 - Argus", url: "https://teams.microsoft.com/l/team/19%3AG5YzfrE0LOeJDUkTTL0Pv5RIBOklD5Nw5cayaR1ZMm41%40thread.tacv2/conversations?groupId=3da912de-3e4d-4d44-952b-a26f1511e5c6&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [marine, kirby, boat]
+
+  - id: rail
+    name: "Rail & Telemetry"
+    icon: "🚂"
+    summary: "Telemetry systems for Railking railcar movers."
+    areas:
+      - id: railking
+        name: "Railking"
+        projects:
+          - name: "Rail King"
+            summary: "Telemetry systems for Railking railcar movers."
+            links:
+              - { type: teams, label: "Teams: Rail King", url: "https://teams.microsoft.com/l/team/19%3ABvM1TTrDJaXhJGcRYPAQL8djb8THRXG2T9S2pBUirLI1%40thread.tacv2/conversations?groupId=21e515b6-7c8a-4f64-a537-51128c611507&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [rail, telemetry]
+
+  - id: cloud
+    name: "Cloud & Remote Operations"
+    icon: "☁️"
+    summary: "Cloud asset management portal and the Remote Operations Center."
+    areas:
+      - id: roc
+        name: "Remote Operations Center"
+        projects:
+          - name: "Remote Ops Center"
+            summary: "Collects telemetry and runs remote operations tasks."
+            links:
+              - { type: teams, label: "Teams: Remote Ops Center", url: "https://teams.microsoft.com/l/team/19%3AJl28-xREJhTn4DnLD2HHx01YGmxw39Y4a1mrg30nQ3A1%40thread.tacv2/conversations?groupId=157ce2b2-12df-4cfd-9f25-880414872b96&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [cloud, roc, telemetry]
+
+  - id: analytics
+    name: "Data Analytics"
+    icon: "📊"
+    summary: "Data analytics projects built on daily Databricks ingest."
+    areas:
+      - id: analytics_projects
+        name: "Analytics Projects"
+        projects:
+          - name: "Data Analytics"
+            summary: "Analytics on telemetry ingested daily into Databricks."
+            links:
+              - { type: teams, label: "Teams: Data Analytics", url: "https://teams.microsoft.com/l/team/19%3Akg1UUtslFou_kU-qyCPOMQLoVb4TpdN9cjcpWeTHwBo1%40thread.tacv2/conversations?groupId=7e47ee1d-80c3-4a70-ab82-4f5d2f6ab9d1&tenantId=346af222-a763-43e1-a759-22af355b9698" }
+            tags: [analytics, databricks]
+
+  - id: internal
+    name: "Internal Tools"
+    icon: "🧰"
+    summary: "In-house tools supporting other departments."
+    areas:
+      - id: tools
+        name: "Tools"
+        projects:
+          - name: "Project Management / Data Viewers / Timesheets"
+            summary: "Internal tools: project management, data viewers, timesheets. See Applications & Infrastructure for hosted apps."
+            links: []
+            tags: [internal, tools]

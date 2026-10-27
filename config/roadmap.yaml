@@ -1,0 +1,64 @@
+# S2L Navigator — roadmap (data-driven), split into Edge and ROC tracks.
+# status: planned | in-progress | done
+# Edit freely; the Roadmap page renders each track with a timeline + status cards.
+
+roadmap:
+  edge:
+    - period: "Q4 2026"
+      items:
+        - title: ".NET 8 edge platform base (CVT + Pub/Sub)"
+          status: in-progress
+          owner: ""
+          detail: "Redis current-value table + MQTT pub/sub module framework."
+        - title: "Configuration-based Launcher"
+          status: in-progress
+          owner: ""
+          detail: "Config-driven module startup across hardware models."
+    - period: "Q1 2027"
+      items:
+        - title: "Custom Node-RED nodes"
+          status: planned
+          owner: ""
+          detail: "User-editable edge logic building blocks."
+        - title: "Standardized multi-hardware image"
+          status: planned
+          owner: ""
+          detail: "Unified Linux runtime across Advantech / RevPi / Seeed / x86."
+    - period: "Q2 2027"
+      items:
+        - title: "BoP configurable control platform v1"
+          status: planned
+          owner: ""
+          detail: "Generic, per-application configurable Balance of Plant system."
+        - title: "Digital Twin integration"
+          status: planned
+          owner: ""
+          detail: "Test control systems against digital twin environments."
+
+  roc:
+    - period: "Q4 2026"
+      items:
+        - title: "ROC ThingsBoard Prod live"
+          status: in-progress
+          owner: ""
+          detail: "Prod ThingsBoard (Docker) + Cassandra in Azure."
+        - title: "Entra ID SSO rollout"
+          status: in-progress
+          owner: ""
+          detail: "Central SSO across all S2L apps."
+    - period: "Q1 2027"
+      items:
+        - title: "Databricks analytics pipeline"
+          status: planned
+          owner: ""
+          detail: "Daily Cassandra -> Databricks ingest feeding Data Analytics."
+        - title: "Warranty application (Railking / KPS)"
+          status: planned
+          owner: ""
+          detail: "On-prem hosted warranty app with SSO."
+    - period: "Q2 2027"
+      items:
+        - title: "OpenZiti / ZeroTier provisioning at scale"
+          status: planned
+          owner: ""
+          detail: "Zero-trust + overlay onboarding for the field fleet."

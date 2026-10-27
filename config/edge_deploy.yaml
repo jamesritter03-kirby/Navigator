@@ -1,0 +1,75 @@
+# S2L Navigator — Edge Device Deployment project (s2labs-edge-device-deploy)
+# Summarizes the local deployment repo so it can be explained inside the Navigator.
+
+edge_deploy:
+  name: "S2Labs Edge Device Deployment"
+  repo: "s2labs-edge-device-deploy"
+  version: "1.9.165"
+  summary: >
+    Multi-platform deployment system that builds, provisions, and manages S2Labs IoT edge
+    devices with LTE, GPS, ThingsBoard, ZeroTier, and OpenZiti support. Deployment is driven
+    from Windows (deploy.ps1) over SCP/SSH; there is no git on target devices.
+
+  workflow:
+    - phase: "Phase 1 — Base Image Creation"
+      role: "Software Engineer"
+      detail: >
+        Flash stock OS, push the repo to the device and build over SSH (deploy.ps1 runs
+        upload -> build -> 58 verification checks -> cleanup -> version prompt), then capture
+        the finished image.
+    - phase: "Phase 2 — Pre-Production Assembly"
+      role: "Technician"
+      detail: >
+        Install the Quectel EC25-AFXGA Mini-PCIe LTE module + activated SIM, connect LTE and
+        GPS/GNSS antennas (never swap them), flash the base image, first boot regenerates SSH
+        keys and machine-id.
+    - phase: "Phase 3 — Field Provisioning"
+      role: "Field / Production"
+      detail: >
+        Power on; Device Console UI sets SNS ID (hostname) and Unit ID; Start Provisioning
+        (needs internet) until OpenZiti, ZeroTier, and ThingsBoard all show green; setup-finalize
+        disables auto-login.
+
+  platforms:
+    - name: "Seeed reComputer R2200"
+      os: "Ubuntu/Debian"
+      pkg: ".deb via apt"
+      status: "Active"
+    - name: "Kunbus RevPi Connect 5"
+      os: "Debian (Pi-based)"
+      pkg: ".deb via apt (reuses R2200 package)"
+      status: "Active"
+    - name: "x86 Ubuntu (generic)"
+      os: "Ubuntu x86_64"
+      pkg: ".deb via apt (install-only)"
+      status: "Active"
+    - name: "Advantech EPC-R3720"
+      os: "OpenWrt"
+      pkg: ".ipk via opkg (HTTP, no TLS)"
+      status: "Active"
+
+  services:
+    - name: "ThingsBoard"
+      summary: "Telemetry portal connection (host, device key/secret via provision.conf)."
+    - name: "ZeroTier"
+      summary: "Secure overlay network (network ID + provisioner URL + PSK)."
+    - name: "OpenZiti"
+      summary: "Zero-trust network provisioning (provisioner URL + PSK)."
+
+  hardware_options:
+    - "Quectel EC25-AFXGA Mini-PCIe LTE module"
+    - "Activated nano SIM"
+    - "LTE/MAIN antenna + GPS/GNSS antenna (U.FL)"
+
+  repositories:
+    - kind: "APT (.deb)"
+      detail: "Hosted at s2lzt.westus.cloudapp.azure.com/apt; pool /var/www/repo/apt/pool/main/recomputer/."
+    - kind: "opkg (.ipk)"
+      detail: "Hosted at s2lzt.westus.cloudapp.azure.com/opkg/r3720 over HTTP (BusyBox wget has no TLS)."
+
+  conventions:
+    - "Version tracked in VERSION file; always bump PATCH before every build (re-use causes repo MD5 conflicts)."
+    - "Update CHANGELOG.md on every version change."
+    - "Platform builds must be idempotent (safe to re-run)."
+    - "Credential .conf files are gitignored and baked into the base image — store images securely."
+    - "PowerShell: chain with ';' never '&&'; never write UTF-8 BOM for Linux-bound files."

@@ -1,0 +1,59 @@
+# S2L Navigator — architecture features / principles (data-driven)
+# Grouped capabilities of the S2Labs platform architecture, for IT and stakeholder discussions.
+
+features:
+  - category: "Configurable by Design"
+    icon: "🧩"
+    items:
+      - name: "Configuration-based applications"
+        detail: "One codebase configured per application instead of many bespoke products. Same binary, different config = different product (Datavan, Blender, BoP, etc.)."
+      - name: "Launcher-driven modules"
+        detail: "A Launcher starts only the modules a config requires and tells each where to load its configuration — behavior is data-driven, not hard-coded."
+      - name: "Swappable implementations"
+        detail: "Core services sit behind interfaces (CVT started on Redis, pub/sub on MQTT) so backends can change without touching module logic."
+
+  - category: "Hardware Independent"
+    icon: "🖥️"
+    items:
+      - name: "Same runtime on any hardware"
+        detail: "A standardized Linux edge image (MQTT, Redis, Node-RED, ZeroTier, ThingsBoard Gateway) runs on ARM and x86 alike, so the .NET 8+ app is portable across models."
+      - name: "Multi-model, multi-OS"
+        detail: "Supports Advantech (Yocto), RevPi & Seeed (Pi OS), and x86 (Ubuntu) with OS-appropriate package feeds (OPKG / APT)."
+
+  - category: "Distributed & Decoupled"
+    icon: "🔗"
+    items:
+      - name: "Two communication channels only"
+        detail: "Modules interact solely through the Current Value Table (state) and Pub/Sub (data + events) — never directly — keeping components independent and testable."
+      - name: "Built-in stale-data safety"
+        detail: "Current Value Table entries expire; reads of stale values return null, giving the whole system an automatic liveness signal."
+      - name: "Inherited class hierarchy"
+        detail: "Base classes specialize into modules, maximizing shared behavior and reuse across product lines (BuildingBlocks)."
+
+  - category: "User-Configurable Logic"
+    icon: "🛠️"
+    items:
+      - name: "Tiered logic authoring"
+        detail: "Match effort to need: ThingsBoard Gateway connectors (simple) → Node-RED flows with custom S2L nodes (user-editable) → custom .NET modules (complex)."
+      - name: "Field-editable workflows"
+        detail: "Custom Node-RED nodes let end users and field engineers modify edge logic without code changes."
+
+  - category: "Connected & Observable"
+    icon: "📡"
+    items:
+      - name: "Secure overlay networking"
+        detail: "ZeroTier plus OpenZiti zero-trust provide secure connectivity from field assets to cloud services."
+      - name: "Cloud telemetry pipeline"
+        detail: "The on-device ThingsBoard Gateway forwards telemetry to cloud ThingsBoard → Cassandra → daily Databricks ingest for analytics."
+      - name: "Platform-wide time sync"
+        detail: "GPS-disciplined NTP keeps every module and device time-synchronized, so telemetry and events correlate accurately."
+
+  - category: "Deployable & Maintainable"
+    icon: "📦"
+    items:
+      - name: "Repo-based deployment"
+        detail: "Production apps and field devices pull versioned packages from internal OPKG/APT feeds — the same repos developers use."
+      - name: "Three-phase provisioning"
+        detail: "A repeatable Base Image → Pre-Production → Field Provisioning pipeline with 58 automated verification checks."
+      - name: "Shared platform services"
+        detail: "Entra ID SSO and M365 email are common services every app plugs into, reducing per-app duplication."

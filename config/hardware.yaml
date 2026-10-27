@@ -1,0 +1,59 @@
+# S2L Navigator — hardware catalog (data-driven)
+
+edge_runtime:
+  summary: >
+    Standardized Linux edge runtime image installed on every hardware model. The .NET 8+
+    configuration-based application (Launcher + modules) runs on top and assumes this stack exists.
+  stack:
+    - "MQTT broker"
+    - "Redis"
+    - "Node-RED"
+    - "ZeroTier"
+    - "ThingsBoard Gateway"
+    - ".NET 8+ app + modules"
+
+edge_compute:
+  - model: "Advantech EPC-R3720"
+    arch: "ARM"
+    os: "Yocto (vendor-supplied)"
+    package_feed: "OPKG"
+    notes: "Industrial edge box."
+    url: "https://www.advantech.com/en-us/products/880a61e5-3fed-41f3-bf53-8be2410c0f19/epc-r3720/mod_fde326be-b36e-4044-ba9a-28c4c49a25c6"
+  - model: "Revolution Pi RevPi Connect 5"
+    arch: "ARM"
+    os: "Pi-based OS"
+    package_feed: "APT"
+    notes: "Industrial Raspberry Pi, DIN-rail."
+    url: "https://revolutionpi.com/en/products/revpi-connect-5"
+  - model: "Seeed Studio reComputer R2200"
+    arch: "ARM"
+    os: "Pi-based OS"
+    package_feed: "APT"
+    notes: "Industrial edge computer."
+    url: "https://www.seeed.cc/product/recomputer-industrial-r"
+  - model: "Dell Pro Micro Plus QBM1250"
+    arch: "x86"
+    os: "Ubuntu Server"
+    package_feed: "APT"
+    notes: "Small-form-factor PC."
+    url: "https://www.dell.com/en-us/shop/desktop-computers/spd/dellpromicroplusqbm1250"
+
+remote_io:
+  - model: "Advantech ADAM"
+    summary: "Remote I/O modules (typically Modbus TCP/RTU)."
+  - model: "Axiomatic"
+    summary: "Remote I/O devices (typically CAN / J1939)."
+
+networking:
+  - component: "MikroTik routers"
+    kind: "Router"
+    summary: "Used where needed for field/site routing; external LTE modems can connect to the WAN port."
+  - component: "Internal LTE modems"
+    kind: "Cellular (internal)"
+    summary: "Built into the Advantech EPC and Seeed Studio computers for remote-site connectivity."
+  - component: "External LTE modems"
+    kind: "Cellular (external)"
+    summary: "For edge devices without internal LTE; sometimes on the MikroTik WAN. Models: Digi IX20W, Sierra Wireless RV50X (1103052)."
+  - component: "GPS + NTP time sync"
+    kind: "Timing"
+    summary: "GPS is a core part of the edge platform; drives NTP so all modules and devices are time-synchronized."

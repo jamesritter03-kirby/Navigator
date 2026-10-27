@@ -1,0 +1,76 @@
+# S2L Navigator — infrastructure & hosted applications (data-driven)
+
+shared_services:
+  - name: "Entra ID (Azure AD) SSO"
+    kind: "Identity"
+    summary: "Central single sign-on / identity provider for all S2L apps (OIDC/SAML)."
+  - name: "M365 Email"
+    kind: "Messaging"
+    summary: "App email via Microsoft Graph API or SMTP relay (Exchange Online) for notifications/alerts."
+  - name: "Package Repositories (OPKG / APT / Git / NPM)"
+    kind: "Repositories"
+    summary: "Production-critical. Dev source + dependencies AND the deployment channel for field/edge + prod apps."
+
+azure:
+  subscriptions:
+    - name: "Dev"
+      summary: "Full ThingsBoard + Cassandra copy."
+    - name: "QA"
+      summary: "Full ThingsBoard + Cassandra copy."
+    - name: "Prod"
+      summary: "ThingsBoard (Docker), Cassandra, daily Databricks ingest, Azure Blob (boat data)."
+  components:
+    - name: "ThingsBoard Portal"
+      summary: "Azure Docker deployment; online portal presence; telemetry ingest API."
+    - name: "Cassandra"
+      summary: "ThingsBoard time-series/data store."
+    - name: "Databricks"
+      summary: "Daily batch ingest from Cassandra; powers Data Analytics."
+    - name: "Azure Blob"
+      summary: "Stores boat data; read by the on-prem Data Viewer."
+
+on_prem_apps:
+  - name: "osTicket"
+    kind: "Service tickets"
+    summary: "Service ticket system."
+    links: []
+  - name: "Timesheet Tracker"
+    kind: "Productivity"
+    summary: "In-house timesheet tracker."
+    links: []
+  - name: "Railking Document Navigator"
+    kind: "Documents"
+    summary: "Document navigator for Railking."
+    links: []
+  - name: "Learning Management System"
+    kind: "Training"
+    summary: "Self-hosted LMS."
+    links: []
+  - name: "Data Viewer"
+    kind: "Data"
+    summary: "Views boat data stored in Azure Blob."
+    links: []
+  - name: "Warranty Application"
+    kind: "Warranty"
+    summary: "Warranty app serving both Railking and KPS."
+    links: []
+
+connectivity:
+  - name: "ZeroTier"
+    summary: "Secure overlay network; field assets post telemetry to ThingsBoard over it."
+  - name: "OpenZiti"
+    summary: "Zero-trust networking provisioned on edge devices alongside ZeroTier; one of the three provisioning services (OpenZiti, ZeroTier, ThingsBoard)."
+
+# On-prem VM inventory by environment.
+# Naming: hdc + d|q (dev/qa) + s2 + role (doc/ras/web) + NN
+on_prem_vms:
+  dev:
+    - { host: "(TBD)", ip: "", role: "" }
+    - { host: "(TBD)", ip: "", role: "" }
+    - { host: "hdcds2doc01", ip: "10.1.61.241", role: "doc" }
+    - { host: "hdcds2ras01", ip: "10.1.61.242", role: "ras" }
+    - { host: "hdcds2web01", ip: "10.1.61.243", role: "web" }
+  qa:
+    - { host: "hdcqs2doc01", ip: "10.1.61.244", role: "doc" }
+    - { host: "hdcqs2ras01", ip: "10.1.61.245", role: "ras" }
+    - { host: "hdcqs2web01", ip: "10.1.61.246", role: "web" }
